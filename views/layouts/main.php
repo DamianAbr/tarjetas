@@ -27,16 +27,43 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => 'Tarjetas de Mantenimiento',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
+    if(Yii::$app->user->isGuest)
+    {
+        echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+           // ['label' => 'Tarjetas', 'url' => ['/tarjeta/index']],
+           // ['label' => 'Cañon', 'url' => ['/canon/index']],
+           // ['label' => 'Mantenimiento', 'url' => ['/mantenimientos/index']],
+            //['label' => 'Unidades', 'url' => ['/unidades/index']],
+          //  ['label' => 'About', 'url' => ['/site/about']],
+           // ['label' => 'Contact', 'url' => ['/site/contact']],
+            Yii::$app->user->isGuest ? 
+                
+                (['label' => 'Login', 'url' => ['/site/login']]) 
+                : ('<li>'. Html::beginForm(['/site/logout'], 'post'). Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+            )
+        ],
+    ]);
+    }
+    else
+    {
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => [
+            //['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Tarjetas', 'url' => ['/tarjeta/index']],
             ['label' => 'Cañon', 'url' => ['/canon/index']],
             ['label' => 'Mantenimiento', 'url' => ['/mantenimientos/index']],
@@ -54,7 +81,7 @@ AppAsset::register($this);
                 . '</li>'
             )
         ],
-    ]);
+    ]);}
     NavBar::end();
     ?>
 
